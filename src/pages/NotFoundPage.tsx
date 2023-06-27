@@ -7,7 +7,7 @@ const NotFoundPage = () => {
             <h1>
                 Такой страницы не существует
             </h1>
-            <Link to='/settings'>
+            <Link to='/'>
                 <button>Вернуться на главную страницу</button>
             </Link>
         </div>

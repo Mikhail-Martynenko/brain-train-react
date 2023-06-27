@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import {observer} from "mobx-react-lite";
-import CounterStore from "./store/counter";
+import CounterStore from "./store/task";
 import AllRouters from "./router/Allrouters";
 
 const App: React.FC = observer(() => {

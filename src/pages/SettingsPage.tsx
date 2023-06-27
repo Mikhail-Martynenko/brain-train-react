@@ -1,21 +1,31 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {ALLOWED_OPERATORS, GenerateTaskParams, Operator, Task} from "../domain/domain";
 import game, {MAX_DIFFICULTY_LEVEL} from "../domain/game";
 import SliderRange from "../components/SliderRange";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import {TaskContext, TaskStore} from "../store/task";
+import {observer} from "mobx-react-lite";
 
-const SettingsPage: React.FC = () => {
+interface SettingPageProps {
+    currentTask: Task | null;
+}
+
+const SettingsPage: React.FC<TaskStore> = observer(() => {
     const [selectedOperators, setSelectedOperators] = useState<Operator[]>(ALLOWED_OPERATORS);
     const [roundTime, setRoundTime] = useState(7)
     const [selectedDifficulty, setSelectedDifficulty] = useState(game.config.level);
 
-    const [currentTask, setCurrentTask] = useState<Task>({
-        startValue: 0,
-        operators: [],
-        answer: [],
-        result: 0,
-        complexity: 1,
-    });
+    const taskStore = useContext(TaskContext);
+    console.log(taskStore?.currentTask)
+    const navigate = useNavigate()
+
+    // const [currentTask, setCurrentTask] = useState<Task>({
+    //     startValue: 0,
+    //     operators: [],
+    //     answer: [],
+    //     result: 0,
+    //     complexity: 1,
+    // });
 
     function updateSelectedOperators(operatorSymbol: any) {
         const newOperators = selectedOperators.map(operator => {
@@ -28,12 +38,18 @@ const SettingsPage: React.FC = () => {
 
     }
 
-    const startGame = () => {
+    const startGame = (e: any) => {
+        e.preventDefault()
         const selectedOperatorSymbols = selectedOperators.filter(operator => operator.checked).map(operator => operator.label);
         const allowedOperators = ALLOWED_OPERATORS.filter(operator => selectedOperatorSymbols.includes(operator.label));
 
         const params: GenerateTaskParams = {complexity: selectedDifficulty, allowedOperators: allowedOperators};
-        setCurrentTask(game.generator.generateTask(params));
+
+        if (!taskStore) return;
+        taskStore.currentTask = game.generator.generateTask(params);
+        console.log(taskStore.currentTask);
+
+        navigate('/game')
     };
 
     return (
@@ -69,13 +85,11 @@ const SettingsPage: React.FC = () => {
                         </label>
                     ))}
                 </div>
-                <Link to='/game'>
-                    <button className="start_game_button" type="submit">Play!</button>
-                </Link>
+                <button className="start_game_button" type="submit">Play!</button>
             </form>
 
         </div>
     );
-};
+});
 
 export default SettingsPage;
