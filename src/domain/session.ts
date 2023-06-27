@@ -6,7 +6,7 @@ class CurrentSession implements Session {
     startTime: Date;
     endTime: Date | null;
     score: number;
-    missed: number;
+    miss: number;
     timer: number
 
     constructor(id: string, startTime: Date, endTime: Date | null, score: number, missed: number, timer: number) {
@@ -14,8 +14,16 @@ class CurrentSession implements Session {
         this.startTime = startTime;
         this.endTime = endTime;
         this.score = score;
-        this.missed = missed;
+        this.miss = missed;
         this.timer = timer;
+    }
+
+    addToScore() {
+        this.score += 1;
+    }
+
+    addToMiss() {
+        this.miss += 1;
     }
 }
 

@@ -1,15 +1,22 @@
 import React from 'react';
 import './App.css';
 import {observer} from "mobx-react-lite";
-import CounterStore from "./store/task";
 import AllRouters from "./router/Allrouters";
+import TaskStoreImpl, {TaskContext, TaskStore} from "./store/task";
+import ReactiveStatisticsGame, {StatisticsGameContext} from "./store/statistics";
+import StatisticsGame from "./domain/statisticsGame";
 
 const App: React.FC = observer(() => {
-    const counter = React.useMemo(() => new CounterStore(), []);
+    const currentTask: TaskStore = new TaskStoreImpl();
+    const statistics: StatisticsGame = new ReactiveStatisticsGame();
+
     return (
         <div className="App">
-            {/*<Counter {...counter} />*/}
-            <AllRouters />
+            <StatisticsGameContext.Provider value={statistics}>
+                <TaskContext.Provider value={currentTask}>
+                    <AllRouters/>
+                </TaskContext.Provider>
+            </StatisticsGameContext.Provider>
         </div>
     );
 })

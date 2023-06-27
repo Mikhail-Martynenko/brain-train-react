@@ -1,4 +1,4 @@
-import {action, makeAutoObservable} from 'mobx';
+import {makeAutoObservable} from 'mobx';
 import {Task} from '../domain/domain';
 import {createContext} from "react";
 

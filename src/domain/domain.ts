@@ -96,7 +96,7 @@ export interface Session {
     startTime: Date;
     endTime: Date | null;
     score: number;
-    missed: number;
+    miss: number;
     timer: number
 }
 

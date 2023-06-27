@@ -5,8 +5,8 @@ const NEW_USER_WELCOMING_BONUS_SESSION = {
     startTime: new Date(),
     endTime: new Date(),
     score: 25,
-    missed: 5,
-    timer: 7,
+    miss: 5,
+    timer: 7
 };
 
 class StatisticsGame {
@@ -25,7 +25,7 @@ class StatisticsGame {
     getAccuracy() {
         const lastSession = this.getLastSession();
         if (!lastSession) return 0;
-        const total = lastSession.score + lastSession.missed;
+        const total = lastSession.score + lastSession.miss;
         if (total === 0) return 0;
         return (lastSession.score / total) * 100 >> 0;
     }
@@ -34,19 +34,19 @@ class StatisticsGame {
         this.statistics.sessions.push(session);
     }
 
-    incrementScore() {
-        const lastSession = this.getLastSession();
-        if (!lastSession) return;
-        lastSession.score += 1;
-    }
-
-    incrementMissed() {
-        const lastSession = this.getLastSession();
-        if (!lastSession) return;
-        lastSession.missed += 1;
-    }
+    // incrementScore() {
+    //     const lastSession = this.getLastSession();
+    //     if (!lastSession) return;
+    //     lastSession.score += 1;
+    // }
+    //
+    // incrementMissed() {
+    //     const lastSession = this.getLastSession();
+    //     if (!lastSession) return;
+    //     lastSession.miss += 1;
+    // }
 }
 
-const statisticsGame = new StatisticsGame();
+//const statisticsGame = new StatisticsGame();
 
-export default statisticsGame;
+export default StatisticsGame;

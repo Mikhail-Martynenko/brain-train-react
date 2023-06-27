@@ -2,11 +2,10 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import TimerSession from '../components/TimerSession';
 import game from '../domain/game';
-import statisticsGame from '../domain/statisticsGame';
 import {observer} from "mobx-react-lite";
-import {TaskContext, TaskStore} from "../store/task";
+import {TaskContext} from "../store/task";
 
-const GameContainer: React.FC<TaskStore> = observer(() => {
+const GameContainer: React.FC = observer(() => {
     const [inputValues, setInputValues] = useState<Record<number, any>>({});
     const taskStore = useContext(TaskContext);
     const [equation, setEquation] = useState('')
@@ -25,11 +24,11 @@ const GameContainer: React.FC<TaskStore> = observer(() => {
         if (isCorrect) {
             alert('Верно!');
             generateNewTask();
-            statisticsGame.incrementScore();
+           // statisticsGame.incrementScore();
         } else {
             alert('Неверно!');
             generateNewTask();
-            statisticsGame.incrementMissed();
+           // statisticsGame.incrementMissed();
         }
     };
     const generateEquation = () => {
