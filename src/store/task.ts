@@ -19,10 +19,11 @@ class TaskStoreImpl implements TaskStore {
         return this.currentTask;
     }
 
-  setCurrentTask(task: Task) {
+    setCurrentTask(task: Task) {
         this.currentTask = task;
     }
 }
+
 export const TaskContext = createContext<TaskStore | null>(null);
 
 export default TaskStoreImpl;

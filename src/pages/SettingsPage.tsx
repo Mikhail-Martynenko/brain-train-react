@@ -6,17 +6,20 @@ import {useNavigate} from "react-router-dom";
 import {TaskContext} from "../store/task";
 import {observer} from "mobx-react-lite";
 import {StatisticsGameContext} from "../store/statistics";
+import CurrentSession from "../domain/session";
 
 const SettingsPage: React.FC = observer(() => {
     const [selectedOperators, setSelectedOperators] = useState<Operator[]>(ALLOWED_OPERATORS);
     const [roundTime, setRoundTime] = useState(7)
     const [selectedDifficulty, setSelectedDifficulty] = useState(game.config.level);
 
-    const taskStore = useContext(TaskContext);
-    const session = useContext(StatisticsGameContext)
-    console.log(session, 'session')
-    console.log(taskStore?.currentTask)
     const navigate = useNavigate()
+
+    const taskStore = useContext(TaskContext);
+    const statistics = useContext(StatisticsGameContext)
+
+    console.log(statistics, 'statistics')
+    console.log(taskStore?.currentTask)
 
     function updateSelectedOperators(operatorSymbol: any) {
         const newOperators = selectedOperators.map(operator => {
@@ -26,7 +29,6 @@ const SettingsPage: React.FC = observer(() => {
             return operator;
         });
         setSelectedOperators(newOperators);
-
     }
 
     const startGame = (e: any) => {
@@ -40,14 +42,15 @@ const SettingsPage: React.FC = observer(() => {
         taskStore.currentTask = game.generator.generateTask(params);
         console.log(taskStore.currentTask);
 
-        // game.session = new CurrentSession(Date.now().toString(), new Date(), new Date(), 0, 0, roundTime)
-        // statisticsGame.startSession(game.session)
+        game.session = new CurrentSession(Date.now().toString(), new Date(), new Date(), 0, 0, roundTime)
+        statistics?.startSession(game.session)
 
         navigate('/game')
     };
+
     const totalTask = () => {
-        if (!session) return 0;
-        return session?.getLastSession()?.score + session?.getLastSession().miss
+        if (!statistics) return 0;
+        return statistics?.getLastSession()?.score + statistics?.getLastSession().miss
     }
 
     return (
@@ -55,9 +58,9 @@ const SettingsPage: React.FC = observer(() => {
             <div>
                 <h1>Привет!</h1>
                 <div className="statistic_text">
-                    <p>Добро пожаловать на {session?.statistics.sessions.length} тренировочный день,</p>
-                    <p>Ваш последний результат - решено {session?.getLastSession()?.score} из {totalTask()}</p>
-                    <p>Общая точность {session?.getAccuracy()}%</p>
+                    <p>Добро пожаловать на {statistics?.statistics.sessions.length} тренировочный день,</p>
+                    <p>Ваш последний результат - решено {statistics?.getLastSession()?.score} из {totalTask()}</p>
+                    <p>Общая точность {statistics?.getAccuracy()}%</p>
                 </div>
             </div>
             <form onSubmit={startGame}>
@@ -85,7 +88,6 @@ const SettingsPage: React.FC = observer(() => {
                 </div>
                 <button className="start_game_button" type="submit">Play!</button>
             </form>
-
         </div>
     );
 });

@@ -1,16 +1,16 @@
-import {makeAutoObservable, makeObservable, observable} from 'mobx';
+import {makeObservable, observable} from 'mobx';
 import StatisticsGame from '../domain/statisticsGame';
 import {Session} from "../domain/domain";
 import {createContext} from "react";
 
 class ReactiveStatisticsGame extends StatisticsGame {
     constructor() {
-            super();
-            makeObservable(this, {
-                statistics: observable,
-                getLastSession: observable.ref,
-                getAccuracy: observable,
-            });
+        super();
+        makeObservable(this, {
+            statistics: observable,
+            getLastSession: observable.ref,
+            getAccuracy: observable,
+        });
     }
 
     startSession(session: Session) {

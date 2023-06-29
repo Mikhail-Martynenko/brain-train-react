@@ -7,14 +7,13 @@ import ReactiveStatisticsGame, {StatisticsGameContext} from "./store/statistics"
 import StatisticsGame from "./domain/statisticsGame";
 
 const App: React.FC = observer(() => {
-    const currentTask: TaskStore = new TaskStoreImpl();
-    const statistics: StatisticsGame = new ReactiveStatisticsGame();
-
+    const currentTask: TaskStore = React.useMemo(() => new TaskStoreImpl(), [])
+    const statistics: StatisticsGame = React.useMemo(() => new ReactiveStatisticsGame(), [])
     return (
         <div className="App">
             <StatisticsGameContext.Provider value={statistics}>
                 <TaskContext.Provider value={currentTask}>
-                    <AllRouters/>
+                    <AllRouters />
                 </TaskContext.Provider>
             </StatisticsGameContext.Provider>
         </div>

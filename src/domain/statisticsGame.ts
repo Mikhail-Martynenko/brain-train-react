@@ -33,20 +33,6 @@ class StatisticsGame {
     startSession(session: Session) {
         this.statistics.sessions.push(session);
     }
-
-    // incrementScore() {
-    //     const lastSession = this.getLastSession();
-    //     if (!lastSession) return;
-    //     lastSession.score += 1;
-    // }
-    //
-    // incrementMissed() {
-    //     const lastSession = this.getLastSession();
-    //     if (!lastSession) return;
-    //     lastSession.miss += 1;
-    // }
 }
-
-//const statisticsGame = new StatisticsGame();
 
 export default StatisticsGame;

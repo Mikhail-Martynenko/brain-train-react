@@ -1,16 +1,22 @@
-import {Session} from "./domain";
+import { Session } from "./domain";
 
 class CurrentSession implements Session {
-
     readonly id: string;
     startTime: Date;
     endTime: Date | null;
     score: number;
     miss: number;
-    timer: number
+    timer: number;
 
-    constructor(id: string, startTime: Date, endTime: Date | null, score: number, missed: number, timer: number) {
-        this.id = Date.now().toString();
+    constructor(
+        id: string = Date.now().toString(),
+        startTime: Date = new Date(),
+        endTime: Date | null = null,
+        score: number = 0,
+        missed: number = 0,
+        timer: number = 0
+    ) {
+        this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
         this.score = score;

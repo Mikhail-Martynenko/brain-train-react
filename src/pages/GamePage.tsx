@@ -9,7 +9,6 @@ const GameContainer: React.FC = observer(() => {
     const [inputValues, setInputValues] = useState<Record<number, any>>({});
     const taskStore = useContext(TaskContext);
     const [equation, setEquation] = useState('')
-
     const updateInputValue = (index: any, value: any) => {
         setInputValues(prevInputValues => ({
             ...prevInputValues,
@@ -24,11 +23,11 @@ const GameContainer: React.FC = observer(() => {
         if (isCorrect) {
             alert('Верно!');
             generateNewTask();
-           // statisticsGame.incrementScore();
+            game.session.addToScore()
         } else {
             alert('Неверно!');
             generateNewTask();
-           // statisticsGame.incrementMissed();
+            game.session.addToMiss()
         }
     };
     const generateEquation = () => {
@@ -52,6 +51,7 @@ const GameContainer: React.FC = observer(() => {
         taskStore.currentTask = game.generator.generateTask(params);
     };
 
+
     useEffect(() => {
         console.log(taskStore?.currentTask, 'GAME')
         setEquation(generateEquation());
@@ -65,7 +65,7 @@ const GameContainer: React.FC = observer(() => {
                     <button>Отмена</button>
                 </Link>
             </div>
-            <TimerSession/>
+            <TimerSession />
             <div className="equation-container">
                 {equation.split('').map((char, index: number) => (
                     <React.Fragment key={index}>

@@ -17,7 +17,7 @@ class GameController implements Game {
             sessions: [],
         };
 
-        this.session = new CurrentSession("1", new Date(), null, 0, 0, 7);
+        this.session = new CurrentSession();
         this.generator = new TaskGenerator();
         this.resolver = new ResolverImpl();
         this.config = {level: 1}
