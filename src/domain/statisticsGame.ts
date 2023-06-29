@@ -30,7 +30,7 @@ class StatisticsGame {
         return (lastSession.score / total) * 100 >> 0;
     }
 
-    startSession(session: Session) {
+    addSession(session: Session) {
         this.statistics.sessions.push(session);
     }
 }

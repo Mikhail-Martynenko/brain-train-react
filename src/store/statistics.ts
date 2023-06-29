@@ -13,8 +13,8 @@ class ReactiveStatisticsGame extends StatisticsGame {
         });
     }
 
-    startSession(session: Session) {
-        super.startSession(session)
+    addSession(session: Session) {
+        super.addSession(session)
     }
 
     getAccuracy(): number {

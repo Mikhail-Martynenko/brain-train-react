@@ -1,14 +1,18 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import TimerSession from '../components/TimerSession';
 import game from '../domain/game';
 import {observer} from "mobx-react-lite";
 import {TaskContext} from "../store/task";
+import {SessionStoreContext} from "../store/session";
 
 const GameContainer: React.FC = observer(() => {
     const [inputValues, setInputValues] = useState<Record<number, any>>({});
     const taskStore = useContext(TaskContext);
     const [equation, setEquation] = useState('')
+
+    const session = useContext(SessionStoreContext)
+
     const updateInputValue = (index: any, value: any) => {
         setInputValues(prevInputValues => ({
             ...prevInputValues,
@@ -23,14 +27,15 @@ const GameContainer: React.FC = observer(() => {
         if (isCorrect) {
             alert('Верно!');
             generateNewTask();
-            game.session.addToScore()
+            session?.addToScore()
         } else {
             alert('Неверно!');
             generateNewTask();
-            game.session.addToMiss()
+            session?.addToMiss()
         }
     };
-    const generateEquation = () => {
+
+    const generateEquation = useCallback(() => {
         let equation = `${taskStore?.currentTask?.startValue}`;
         if (taskStore?.currentTask?.operators) {
             for (let i = 0; i < taskStore.currentTask?.complexity; i++) {
@@ -39,7 +44,7 @@ const GameContainer: React.FC = observer(() => {
         }
         equation += ` = ${taskStore?.currentTask?.result}`;
         return equation;
-    };
+    }, [taskStore?.currentTask?.startValue, taskStore?.currentTask?.operators, taskStore?.currentTask?.complexity, taskStore?.currentTask?.result])
 
     const generateNewTask = () => {
         if (!taskStore?.currentTask) return;
@@ -51,12 +56,10 @@ const GameContainer: React.FC = observer(() => {
         taskStore.currentTask = game.generator.generateTask(params);
     };
 
-
     useEffect(() => {
-        console.log(taskStore?.currentTask, 'GAME')
         setEquation(generateEquation());
         setInputValues({});
-    }, [taskStore?.currentTask]);
+    }, [taskStore?.currentTask, generateEquation]);
 
     return (
         <div className="game-container">

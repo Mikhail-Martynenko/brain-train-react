@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom";
 import {TaskContext} from "../store/task";
 import {observer} from "mobx-react-lite";
 import {StatisticsGameContext} from "../store/statistics";
-import CurrentSession from "../domain/session";
+import {SessionStoreContext} from "../store/session";
 
 const SettingsPage: React.FC = observer(() => {
     const [selectedOperators, setSelectedOperators] = useState<Operator[]>(ALLOWED_OPERATORS);
@@ -17,9 +17,7 @@ const SettingsPage: React.FC = observer(() => {
 
     const taskStore = useContext(TaskContext);
     const statistics = useContext(StatisticsGameContext)
-
-    console.log(statistics, 'statistics')
-    console.log(taskStore?.currentTask)
+    const session = useContext(SessionStoreContext)
 
     function updateSelectedOperators(operatorSymbol: any) {
         const newOperators = selectedOperators.map(operator => {
@@ -33,20 +31,27 @@ const SettingsPage: React.FC = observer(() => {
 
     const startGame = (e: any) => {
         e.preventDefault()
-        const selectedOperatorSymbols = selectedOperators.filter(operator => operator.checked).map(operator => operator.label);
-        const allowedOperators = ALLOWED_OPERATORS.filter(operator => selectedOperatorSymbols.includes(operator.label));
+        const selectedOperatorSymbols = getSelectedOperatorSymbols(selectedOperators);
+        const allowedOperators = filterAllowedOperators(selectedOperatorSymbols);
 
-        const params: GenerateTaskParams = {complexity: selectedDifficulty, allowedOperators: allowedOperators};
-
-        if (!taskStore) return;
-        taskStore.currentTask = game.generator.generateTask(params);
-        console.log(taskStore.currentTask);
-
-        game.session = new CurrentSession(Date.now().toString(), new Date(), new Date(), 0, 0, roundTime)
-        statistics?.startSession(game.session)
-
+        generateTaskAndAddSession({complexity: selectedDifficulty, allowedOperators: allowedOperators});
         navigate('/game')
     };
+
+    const getSelectedOperatorSymbols = (operators: Operator[]): string[] => {
+        return operators.filter((operator) => operator.checked).map((operator) => operator.label);
+    };
+
+    const filterAllowedOperators = (operatorSymbols: string[]): Operator[] => {
+        return ALLOWED_OPERATORS.filter((operator) => operatorSymbols.includes(operator.label));
+    };
+
+    const generateTaskAndAddSession = (params: GenerateTaskParams) => {
+        if (!session || !taskStore || !statistics) return;
+        taskStore.currentTask = game.generator.generateTask(params);
+        session.timer = roundTime;
+        statistics.addSession(session);
+    }
 
     const totalTask = () => {
         if (!statistics) return 0;

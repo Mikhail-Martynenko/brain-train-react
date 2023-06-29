@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import game from '../domain/game';
+import {SessionStoreContext} from "../store/session";
 
 const TimerSession = () => {
-    const [timeLeft, setTimeLeft] = useState(game.session.timer * 60);
+    const session = useContext(SessionStoreContext)
+    const [timeLeft, setTimeLeft] = useState((session?.timer ?? 0) * 60);
     const navigate = useNavigate();
-
     const formatTime = (seconds: any) => {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = seconds % 60;
@@ -27,7 +27,7 @@ const TimerSession = () => {
         return () => {
             clearInterval(timer);
         };
-    }, [timeLeft]);
+    }, [timeLeft, navigate]);
 
     return (
         <div className="timer">
