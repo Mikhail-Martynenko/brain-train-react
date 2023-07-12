@@ -1,5 +1,5 @@
 import {Statistics, Game} from './domain';
-import TaskGenerator from "./taskGenerator";
+import TaskGeneratorImpl from "./taskGenerator";
 import ResolverImpl from "./resolver";
 import CurrentSession from "./session";
 
@@ -9,7 +9,7 @@ class GameController implements Game {
     statistics: Statistics;
     session: CurrentSession;
     config;
-    generator: TaskGenerator;
+    generator: TaskGeneratorImpl;
     resolver: ResolverImpl;
 
     constructor() {
@@ -18,7 +18,7 @@ class GameController implements Game {
         };
 
         this.session = new CurrentSession();
-        this.generator = new TaskGenerator();
+        this.generator = new TaskGeneratorImpl();
         this.resolver = new ResolverImpl();
         this.config = {level: 1}
     }

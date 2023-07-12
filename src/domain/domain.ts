@@ -72,7 +72,7 @@ export interface GenerateTaskParams {
     allowedOperators: Operator[];
 }
 
-export interface Generator {
+export interface TaskGenerator {
     generateTask(params: GenerateTaskParams): Task;
 
     MIN_ALLOWED_NUMBER: number;
@@ -104,7 +104,7 @@ export interface Game {
     statistics: Statistics;
     config: Config;
     session: Session;
-    generator: Generator;
+    generator: TaskGenerator;
     resolver: Resolver;
 }
 
