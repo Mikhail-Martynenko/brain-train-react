@@ -2,10 +2,11 @@ import React from 'react';
 import './App.css';
 import {observer} from "mobx-react-lite";
 import AllRouters from "./router/Allrouters";
-import TaskStoreImpl, {TaskContext, TaskStore} from "./store/task";
-import ReactiveStatisticsGame, {StatisticsGameContext} from "./store/statistics";
+import TaskStoreImpl, {TaskStore} from "./store/task";
+import ReactiveStatisticsGame from "./store/statistics";
 import GameStatistics from "./domain/gameStatistics";
-import SessionStoreImpl, {SessionStoreContext} from "./store/session";
+import SessionStoreImpl from "./store/session";
+import {GameStatisticsContext, SessionStoreContext, TaskContext} from './providers/store';
 
 const App: React.FC = observer(() => {
     const currentTask: TaskStore = React.useMemo(() => new TaskStoreImpl(), [])
@@ -13,13 +14,13 @@ const App: React.FC = observer(() => {
     const session = React.useMemo(() => new SessionStoreImpl(), []);
     return (
         <div className="App">
-            <StatisticsGameContext.Provider value={statistics}>
+            <GameStatisticsContext.Provider value={statistics}>
                 <TaskContext.Provider value={currentTask}>
                     <SessionStoreContext.Provider value={session}>
                         <AllRouters />
                     </SessionStoreContext.Provider>
                 </TaskContext.Provider>
-            </StatisticsGameContext.Provider>
+            </GameStatisticsContext.Provider>
         </div>
     );
 })

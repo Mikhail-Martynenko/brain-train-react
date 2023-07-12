@@ -3,10 +3,8 @@ import {ALLOWED_OPERATORS, GenerateTaskParams, Operator} from "../domain/domain"
 import game, {MAX_DIFFICULTY_LEVEL} from "../domain/game";
 import SliderRange from "../components/SliderRange";
 import {useNavigate} from "react-router-dom";
-import {TaskContext} from "../store/task";
 import {observer} from "mobx-react-lite";
-import {StatisticsGameContext} from "../store/statistics";
-import {SessionStoreContext} from "../store/session";
+import {GameStatisticsContext, SessionStoreContext, TaskContext} from "../providers/store";
 
 const SettingsPage: React.FC = observer(() => {
     const [selectedOperators, setSelectedOperators] = useState<Operator[]>(ALLOWED_OPERATORS);
@@ -16,7 +14,7 @@ const SettingsPage: React.FC = observer(() => {
     const navigate = useNavigate()
 
     const taskStore = useContext(TaskContext);
-    const statistics = useContext(StatisticsGameContext)
+    const statistics = useContext(GameStatisticsContext)
     const session = useContext(SessionStoreContext)
 
     function updateSelectedOperators(operatorSymbol: any) {
@@ -81,7 +79,7 @@ const SettingsPage: React.FC = observer(() => {
                 />
                 <div className="operators">
                     {ALLOWED_OPERATORS.map((operator) => (
-                        <label key={operator.symbol}> 
+                        <label key={operator.symbol}>
                             <input
                                 type="checkbox"
                                 checked={operator.checked}

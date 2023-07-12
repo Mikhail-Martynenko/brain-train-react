@@ -1,6 +1,5 @@
 import {makeObservable, observable} from "mobx";
 import CurrentSession from "../domain/session";
-import {createContext} from "react";
 
 class SessionStoreImpl extends CurrentSession {
     constructor(
@@ -29,7 +28,5 @@ class SessionStoreImpl extends CurrentSession {
         });
     }
 }
-
-export const SessionStoreContext = createContext<CurrentSession | null>(null);
 
 export default SessionStoreImpl;

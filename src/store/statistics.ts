@@ -1,7 +1,6 @@
 import {makeObservable, observable} from 'mobx';
 import GameStatistics from '../domain/gameStatistics';
 import {Session} from "../domain/domain";
-import {createContext} from "react";
 
 class ReactiveStatisticsGame extends GameStatistics {
     constructor() {
@@ -21,7 +20,5 @@ class ReactiveStatisticsGame extends GameStatistics {
         return super.getAccuracy();
     }
 }
-
-export const StatisticsGameContext = createContext<GameStatistics | null>(null);
 
 export default ReactiveStatisticsGame;
