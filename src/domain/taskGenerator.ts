@@ -1,7 +1,7 @@
-import {GenerateTaskParams, Generator, Operator, Task} from "./domain";
+import {GenerateTaskParams, TaskGenerator, Operator, Task} from "./domain";
 import Random from "../utils/index";
 
-class TaskGenerator implements Generator {
+class TaskGeneratorImpl implements TaskGenerator {
     protected _MIN_ALLOWED_NUMBER = 1;
     protected _MAX_ALLOWED_NUMBER = 10;
 
@@ -88,4 +88,4 @@ class TaskGenerator implements Generator {
     }
 }
 
-export default TaskGenerator;
+export default TaskGeneratorImpl;
