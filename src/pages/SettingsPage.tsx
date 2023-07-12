@@ -81,7 +81,7 @@ const SettingsPage: React.FC = observer(() => {
                 />
                 <div className="operators">
                     {ALLOWED_OPERATORS.map((operator) => (
-                        <label key={operator.symbol}>
+                        <label key={operator.symbol}> 
                             <input
                                 type="checkbox"
                                 checked={operator.checked}

@@ -9,7 +9,7 @@ const NEW_USER_WELCOMING_BONUS_SESSION = {
     timer: 7
 };
 
-class StatisticsGame {
+class GameStatistics {
     statistics: Statistics;
 
     constructor() {
@@ -35,4 +35,4 @@ class StatisticsGame {
     }
 }
 
-export default StatisticsGame;
+export default GameStatistics;
