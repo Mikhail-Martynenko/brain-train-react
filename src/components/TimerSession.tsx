@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {SessionStoreContext} from "../store/session";
+import {SessionStoreContext} from "../providers/store";
 
 const TimerSession = () => {
     const session = useContext(SessionStoreContext)

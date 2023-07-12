@@ -3,8 +3,7 @@ import {Link} from 'react-router-dom';
 import TimerSession from '../components/TimerSession';
 import game from '../domain/game';
 import {observer} from "mobx-react-lite";
-import {TaskContext} from "../store/task";
-import {SessionStoreContext} from "../store/session";
+import {SessionStoreContext, TaskContext} from "../providers/store";
 
 const GameContainer: React.FC = observer(() => {
     const [inputValues, setInputValues] = useState<Record<number, any>>({});

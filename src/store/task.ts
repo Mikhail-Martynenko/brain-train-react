@@ -1,6 +1,5 @@
 import {makeAutoObservable} from 'mobx';
 import {Task} from '../domain/domain';
-import {createContext} from "react";
 
 export interface TaskStore {
     currentTask: Task | null;
@@ -23,7 +22,5 @@ class TaskStoreImpl implements TaskStore {
         this.currentTask = task;
     }
 }
-
-export const TaskContext = createContext<TaskStore | null>(null);
 
 export default TaskStoreImpl;
