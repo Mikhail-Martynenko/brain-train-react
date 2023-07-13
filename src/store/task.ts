@@ -1,4 +1,4 @@
-import {makeAutoObservable} from 'mobx';
+import {action, makeObservable, observable} from 'mobx';
 import {Task} from '../domain/domain';
 
 export interface TaskStore {
@@ -8,10 +8,14 @@ export interface TaskStore {
 }
 
 class TaskStoreImpl implements TaskStore {
-    currentTask: Task | null = null;
+    currentTask: Task = null!;
 
     constructor() {
-        makeAutoObservable(this);
+        makeObservable(this, {
+            currentTask: observable,
+            getCurrentTask: action,
+            setCurrentTask: action,
+        });
     }
 
     getCurrentTask() {
